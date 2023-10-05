@@ -4,10 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-    <button onclick="displayMessage()">Click me!</button>
-    <p id="hiddenMessage" style="display:none">You are going on a cruise</p>
-    <script src="nitcrud.js"></script>
+    <form id="newItemForm">
+        <label for="content">New Item</label>
+        <input maxlength="100" type="text" name="newItem" id="content" placeholder="To-Do Item"/>
+        <button type="submit">Submit</button>
+    </form>
+    <h2>To-Do List</h2>
+    <table id="checklistTable">
+    </table>
+    <script src="purelocal.js"></script>
 </body>
 </html>

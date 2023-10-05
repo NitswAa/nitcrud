@@ -15,10 +15,31 @@ A user must be able to delete existing checklist items.
     The backend must accept a request from the UI to delete a checklist item.
 */
 // requires
-const FileSystem = require("fs");
+//import fs from "fs";
 
-function displayMessage() {
-    document.getElementById("hiddenMessage").style.display = 'block';
+// TODO Click functionality?
+// Initialize array of checklist items by loading file
+// TODO How to make this independent for each user?
+// Also note doesn't come in as Item object... but is that really even necessary?
+// Obviously could just convert them all, potentially a better way but idk it
+import data from './checklist.json'
+console.log(data);
+let checklist = data;
+for (let i = 0; i < checklist.length; i++) {
+    checklist[i] = new Item(checklist[i].content);
+}
+
+// TODO could conceivably try to give good ids and update appropriately to optimize... but this works for now
+function displayChecklist() {
+    document.getElementById("checklist").innerHTML = "<h2>To-Do:</h2><table><tr><td>Item</td><td>Completed?</td></tr>";
+    for(let i = 0; i < checklist.length; i++) {
+        document.getElementById("checklist").innerHTML += "<tr><td>" + checklist[i].content + "</td><td>"; 
+        if (checklist[i].isComplete) {
+            document.getElementById("checklist").innerHTML += "Y</td></tr>"
+        } else {
+            document.getElementById("checklist").innerHTML += "N</td></tr>"
+        }
+    }
 }
 
 // Constructor for checklist items
@@ -47,26 +68,18 @@ function addItem(content, loc) {
 
 // Save to JSON file on system... can probably somewhat optimize this in the sense of
 // not having it be run every time something updates? but for now it works
+/*
 function save() {
-    FileSystem.writeFile('checklist.json', JSON.stringify(checklist), (error) => {
+    fs.writeFile('checklist.json', JSON.stringify(checklist), (error) => {
         if (error) throw error;
     });
 }
+*/
 
-// Initialize array of checklist items by loading file
-// TODO How to make this independent for each user?
-// Also note doesn't come in as Item object... but is that really even necessary?
-// Obviously could just convert them all, potentially a better way but idk it
-let checklist = require('./checklist.json');
-for (let i = 0; i < checklist.length; i++) {
-    checklist[i] = new Item(checklist[i].content);
-}
-
-// TODO Click functionality?
 
 addItem("Check this off!", 0);
 addItem("Don't check this off yet!", 1);
 checklist[0].checkOff();
 console.log(checklist);
 
-save();
+//save();
