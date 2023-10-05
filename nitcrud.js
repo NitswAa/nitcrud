@@ -1,4 +1,5 @@
 const app = document.getElementById("app")
+let id_counter = 0
 
 function Header({ title }) {
     return (
@@ -17,9 +18,9 @@ function handleEdit() {
 
 }
 
-function Item({ content, isChecked=false }) {
+function Item({ item_id, content, isChecked=false }) {
     return (
-        <tr> 
+        <tr > 
         {/* Can I use keys to reference rows? 
             Or should I just convert to stylized list... */}
             <td>{content}</td>
@@ -28,8 +29,8 @@ function Item({ content, isChecked=false }) {
             {/* Options: Re-render item content as input form (and replace edit
                 button with submit?) 
                 Or prompt user input and replace */}
-            <td><button onClick={handleDelete}><i class="fa-solid fa-pencil"></i> Edit</button></td>
-            <td><button onClick={handleEdit}><i class="fa fa-trash"></i> Delete</button></td>
+            <td><button id={"delete_" + item_id} onClick={handleDelete}><i class="fa-solid fa-pencil"></i> Edit</button></td>
+            <td><button id={"edit_" + item_id} onClick={handleEdit}><i class="fa fa-trash"></i> Delete</button></td>
         </tr>
     )
 }
@@ -51,10 +52,11 @@ function Form() {
         setItems(
             [
                 ...items,
-                { content: formJson.itemContent, isChecked: false }
+                { item_id: id_counter, content: formJson.itemContent, isChecked: false }
             ]
         )
         console.log(items)
+        id_counter += 1
 
         // Clear text input (there's gotta be a better way?!)
         document.getElementById("itemInput").value = ''
@@ -73,7 +75,7 @@ function Form() {
                 <th>Completed?</th>
             </tr>
             {items.map((item) => (
-                <Item content={item.content} isChecked={item.isChecked}/>
+                <Item item_id={item.item_id} content={item.content} isChecked={item.isChecked}/>
             ))}
             </table>
         </div>
