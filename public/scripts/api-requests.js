@@ -64,11 +64,12 @@ async function onPut(e) {
     // decrement index by 1 because UI is 1 extra (I know I know. But
     // people don't like looking at 0-indexed arrays okay?)
     const index = document.getElementById("indexSelector").value - 1;
-    const newContent = document.getElementById("newContent").value;
+    const newContent = (document.getElementById("newContent").value);
     // If this works...
     // Update: It doesn't. HTML doesn't have a method of doing this...
     // There was a suggestion to include a hidden element to keep track of state...
     // React could almost certainly optimize here in that case.
+    // Could just use a radio option. But that's boring.
     const complete = (document.getElementById("completed?").value ? true : false);
 
     const options = {

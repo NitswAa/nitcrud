@@ -56,7 +56,12 @@ app.put('/api', (req, res) => {
 
     tasks[req.body.index] = {
         ...tasks[req.body.index],
-        ...{ content: req.body.newContent, complete: req.body.complete }
+        ...{ 
+            content: (req.body.newContent 
+                        ? req.body.newContent
+                        : tasks[req.body.index].content), 
+            complete: req.body.complete 
+           }
     }
 
     fs.writeFileSync(database, Json.stringify(tasks));
