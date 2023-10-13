@@ -1,5 +1,6 @@
 const createForm = document.getElementById("createForm");
 const updateForm = document.getElementById("updateForm");
+const deleteForm = document.getElementById("deleteForm");
 
 // Adds content of GET request to page
 async function onGet() {
@@ -12,7 +13,6 @@ async function onGet() {
     // Generate header
     const dataHeader = document.createElement('h2');
     dataHeader.textContent = "To-Do List:"
-
     document.getElementById('data').append(dataHeader);
 
     // Generate to-do list
@@ -62,8 +62,8 @@ async function onPut(e) {
     e.preventDefault();
 
     // decrement index by 1 because UI is 1 extra (I know I know. But
-    // people don't like looking at 0-indexed arrays okay?)
-    const index = document.getElementById("indexSelector").value - 1;
+    // most people don't like looking at 0-indexed arrays okay?)
+    const index = document.getElementById("updateSelector").value - 1;
     const newContent = (document.getElementById("newContent").value);
     // If this works...
     // Update: It doesn't. HTML doesn't have a method of doing this...
@@ -85,12 +85,35 @@ async function onPut(e) {
 
     console.log(result);
 
-    // For now, to re-update the to-do list, I'm just going to
+    // For now, to refresh the to-do list on page, I'm just going to
     // Call another GET request. would rather want to update the
-    // HTML here, but since I'm using a atrocious approach to that
+    // HTML here, but since I'm using an atrocious approach to that
     // I have to do this instead!
+    onGet();
+}
+
+async function onDelete(e) {
+    e.preventDefault();
+
+    // Same as with update; UI index is 1 greater for display purposes
+    index = document.getElementById("deleteSelector").value - 1;
+
+    const options = {
+        method: "DELETE",
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify({ index })
+    }
+
+    const response = await fetch('/api', options);
+    const result = response.json();
+
+    console.log(result);
+
     onGet();
 }
 
 createForm.addEventListener("submit", onPost);
 updateForm.addEventListener("submit", onPut);
+deleteForm.addEventListener("submit", onDelete);

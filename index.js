@@ -1,6 +1,6 @@
 const express = require('express');
 const fs = require('fs');
-const database = './public/data/checklist.json'
+const database = './data/checklist.json'
 
 const app = express();
 
@@ -64,7 +64,7 @@ app.put('/api', (req, res) => {
            }
     }
 
-    fs.writeFileSync(database, Json.stringify(tasks));
+    fs.writeFileSync(database, JSON.stringify(tasks));
 
     res.json({
         status: "Received"
@@ -73,5 +73,23 @@ app.put('/api', (req, res) => {
 
 app.delete('/api', (req, res) => {
     console.log("DELETE request received");
+
+    // Okay, big question; do I want to redo all ids
+    // Realistically I "should", but also in principle
+    // I eventually want IDs to be randomly and safely
+    // generated, for a database system. Right now IDs are
+    // not used. So. It's not worth it, as it would be
+    // deprecated eventually anyways, and isn't currently
+    // necessary.
+
+    // In that case, just remove the element with a splice.
+
+    tasks = tasks.splice(req.body.index);
+
+    fs.writeFileSync(database, JSON.stringify(tasks));
+
+    res.json({
+        status: "Received"
+    })
 })
 

@@ -21,13 +21,20 @@
 
     <h2>Update:</h2>
     <form id="updateForm">
-        <label for="indexSelector">Index:</label>
-        <input type="text" name="indexSelector" id="indexSelector" />        
+        <label for="updateSelector">Index:</label>
+        <input type="text" name="updateSelector" id="updateSelector" />        
         <label for="newContent">Content (leave blank for no change):</label>
         <input type="text" name="newContent" id="newContent" />
         <label for="completed?">Completion:</label>
         <input type="checkbox" name="completed?" id="completed?" value="checked" />
         <button type="submit">Update</button>
+    </form>
+
+    <h2>Delete:</h2>
+    <form id="deleteForm">
+        <label for="deleteSelector">Index:</label>
+        <input type="text" name="deleteSelector" id="deleteSelector" />
+        <button type="submit">Delete</button>
     </form>
 
     <div id="data" class="list"></div>
