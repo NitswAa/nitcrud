@@ -9,7 +9,7 @@ app.use(express.static('public'));
 app.use(express.json({ limit: '10mb' }));
 
 const tasks = JSON.parse(fs.readFileSync(database, 'utf8'));
-let nextID = tasks.length;
+let nextID = Math.max(...tasks.map( e => e.id )) + 1; 
 
 app.get('/api', (req, res) => {
     console.log("GET request received");
@@ -33,10 +33,8 @@ app.post('/api', (req, res) => {
     const task = {
         content: req.body.content,
         complete: false,
-        id: nextID
+        id: newID()
     }
-
-    nextID++;
 
     tasks.push(task);
     // I believe this could be done async because
@@ -54,12 +52,14 @@ app.post('/api', (req, res) => {
 app.put('/api', (req, res) => {
     console.log("PUT request received");
 
-    tasks[req.body.index] = {
-        ...tasks[req.body.index],
+    const index = tasks.map( e => e.id ).indexOf(req.body.id);
+
+    tasks[index] = {
+        ...tasks[index],
         ...{ 
             content: (req.body.newContent 
                         ? req.body.newContent
-                        : tasks[req.body.index].content), 
+                        : tasks[index].content), 
             complete: req.body.complete 
            }
     }
@@ -84,7 +84,9 @@ app.delete('/api', (req, res) => {
 
     // In that case, just remove the element with a splice.
 
-    tasks = tasks.splice(req.body.index);
+    const index = tasks.map( e => e.id ).indexOf(req.body.id);
+
+    tasks.splice(index, 1);
 
     fs.writeFileSync(database, JSON.stringify(tasks));
 
@@ -93,3 +95,7 @@ app.delete('/api', (req, res) => {
     })
 })
 
+// Later on would probably want a nicer generator
+function newID() {
+    return nextID++;
+}

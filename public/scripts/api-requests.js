@@ -28,7 +28,7 @@ async function onGet() {
         // Would want elements in separate divs
         // Then stylize... could also eventually
         // Try and create a React component for this
-        line.textContent = "" + (id + 1) + " | " + content + " | " +
+        line.textContent = "" + (id) + " | " + content + " | " +
         (
             complete ? "completed" : "not completed"
         );
@@ -56,14 +56,14 @@ async function onPost(e) {
     const result = response.json();
 
     console.log(result);
+
+    onGet();
 }
 
 async function onPut(e) {
     e.preventDefault();
 
-    // decrement index by 1 because UI is 1 extra (I know I know. But
-    // most people don't like looking at 0-indexed arrays okay?)
-    const index = document.getElementById("updateSelector").value - 1;
+    const id = Number(document.getElementById("updateSelector").value);
     const newContent = (document.getElementById("newContent").value);
     // If this works...
     // Update: It doesn't. HTML doesn't have a method of doing this...
@@ -77,7 +77,7 @@ async function onPut(e) {
         headers: {
             "Content-type": "application/json"
         },
-        body: JSON.stringify({ newContent, complete, index })
+        body: JSON.stringify({ newContent, complete, id })
     }
 
     const response = await fetch('/api', options);
@@ -95,15 +95,14 @@ async function onPut(e) {
 async function onDelete(e) {
     e.preventDefault();
 
-    // Same as with update; UI index is 1 greater for display purposes
-    index = document.getElementById("deleteSelector").value - 1;
+    id = Number(document.getElementById("deleteSelector").value);
 
     const options = {
         method: "DELETE",
         headers: {
             "Content-type": "application/json"
         },
-        body: JSON.stringify({ index })
+        body: JSON.stringify({ id })
     }
 
     const response = await fetch('/api', options);
