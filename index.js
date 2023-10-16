@@ -9,6 +9,7 @@ app.use(express.static('public'));
 app.use(express.json({ limit: '10mb' }));
 
 const tasks = JSON.parse(fs.readFileSync(database, 'utf8'));
+// Wouldn't be needed with a better id generator, but works for now.
 let nextID = Math.max(...tasks.map( e => e.id )) + 1; 
 
 app.get('/api', (req, res) => {
@@ -37,9 +38,8 @@ app.post('/api', (req, res) => {
     }
 
     tasks.push(task);
-    // I believe this could be done async because
+    // I believe this could/should be done async esp. because
     // We're dealing with a callback function and promises?
-    // But anyways.
     fs.writeFileSync(database, JSON.stringify(tasks));
 
     // No error checking heeheehaha. Async write has callback
@@ -49,6 +49,12 @@ app.post('/api', (req, res) => {
     })
 })
 
+
+/*
+    Expects a request with newContent, complete, and id properties
+    within the body, to replace a piece of content with something
+    else and/or mark it as completed.
+*/
 app.put('/api', (req, res) => {
     console.log("PUT request received");
 
@@ -74,16 +80,6 @@ app.put('/api', (req, res) => {
 app.delete('/api', (req, res) => {
     console.log("DELETE request received");
 
-    // Okay, big question; do I want to redo all ids
-    // Realistically I "should", but also in principle
-    // I eventually want IDs to be randomly and safely
-    // generated, for a database system. Right now IDs are
-    // not used. So. It's not worth it, as it would be
-    // deprecated eventually anyways, and isn't currently
-    // necessary.
-
-    // In that case, just remove the element with a splice.
-
     const index = tasks.map( e => e.id ).indexOf(req.body.id);
 
     tasks.splice(index, 1);
@@ -96,6 +92,7 @@ app.delete('/api', (req, res) => {
 })
 
 // Later on would probably want a nicer generator
+// Hash seeded by timestamp?
 function newID() {
     return nextID++;
 }

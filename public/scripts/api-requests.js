@@ -17,7 +17,6 @@ async function onGet() {
 
     // Generate to-do list
     for (task of checklist) {
-        // Each item in the list contains text content, id and completion flag
         const { content, complete, id } = task;
 
         const line = document.createElement('div');
@@ -27,7 +26,8 @@ async function onGet() {
         // I think ideally for editing purposes
         // Would want elements in separate divs
         // Then stylize... could also eventually
-        // Try and create a React component for this
+        // try and create a React component for this
+        // HTML table would also work
         line.textContent = "" + (id) + " | " + content + " | " +
         (
             complete ? "completed" : "not completed"
@@ -41,8 +41,8 @@ async function onGet() {
 
 async function onPost(e) {
     e.preventDefault();
+
     const content = document.getElementById("newTask").value;
-    console.log(content);
 
     const options = {
         method: "POST",
@@ -69,8 +69,8 @@ async function onPut(e) {
     // Update: It doesn't. HTML doesn't have a method of doing this...
     // There was a suggestion to include a hidden element to keep track of state...
     // React could almost certainly optimize here in that case.
-    // Could just use a radio option. But that's boring.
-    const complete = (document.getElementById("completed?").value ? true : false);
+    // Could just use a radio option. But that looks bad
+    const complete = (document.getElementById("completed?").value == "checked" ? true : false);
 
     const options = {
         method: "PUT",
