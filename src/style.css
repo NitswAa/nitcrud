@@ -1,0 +1,106 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 20%;
+    margin: 5rem auto;
+    background-color: papayawhip;
+    font-family: 'Inter', sans-serif;
+}
+
+.header { 
+    width: auto;
+    margin: 0 auto 2rem auto;
+    padding-top: 1rem;
+    text-align: center;
+}
+
+.header p {
+    margin-top: 1rem;
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 0.95rem;
+}
+
+.post-form {
+    margin-top: 2rem;
+    background-color: papayawhip;
+}
+
+.post-form input {
+    height: 2em;
+    width: 80%;
+    text-indent: 4%;
+    font-family: 'Inter', sans-serif;
+}
+
+.post-form button {
+    height: 1.5em;
+    width: 15%;
+    margin-left: 2.5%;
+}
+
+.task-list {
+    list-style: none;
+    border: solid rgb(189, 167, 133);
+    display: flexbox;
+}
+
+.task-main {
+    background-color: #fff;
+    padding: 10px 0px;
+    border-bottom: solid 2px #BBB;
+    display: flex;
+    gap: 0;
+    font-size: medium;
+}
+
+.task-content {
+    text-align: left;
+    width: 80%;
+}
+
+.task-checkbox-form {
+    width: 10%;
+    justify-content: center;
+}
+
+.task-checkbox {
+    margin-left: 30%;
+}
+
+.task-form {
+    width: 80%;
+}
+
+.task-form input {
+    border-top: none;
+    border-right: none;
+    border-left: solid 2px #BBB;
+    border-bottom: solid 2px #BBB;;
+    text-indent: 2%;
+    height: 1.5em;
+    width: 90%;
+    font-family: 'Inter', sans-serif;
+    font-size: medium;
+}
+
+.task-main button {
+    border: 0;
+    padding: 4px;
+    background-color: hsl(7, 90%, 50%);
+    cursor: pointer;
+    border-radius: 4px;
+    width: 8%;
+    height: 100%;
+}
+
+.task-main button:hover {
+    border: 0;
+    background-color: hsl(7, 85%, 45%);
+    cursor: pointer;
+    
+}
+

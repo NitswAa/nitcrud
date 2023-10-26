@@ -1,11 +1,11 @@
 const express = require('express');
 const fs = require('fs');
-const database = './data/checklist.json'
+const database = './server/data/checklist.json'
 
 const app = express();
 
 app.listen(3001, () => console.log('listening at 3001'));
-app.use(express.static('public'));
+app.use(express.static('./server/public'));
 app.use(express.json({ limit: '10mb' }));
 
 // Open up CORS

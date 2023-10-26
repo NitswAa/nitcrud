@@ -12,6 +12,11 @@ export default function PostForm(props) {
     function submitPost(e) {
         e.preventDefault()
 
+        if(e.target[0].value === "") {
+            // Implies empty input, no need for new task
+            return
+        }
+
         const postData = {
             id: uuidv4(),
             content: formData.content,
@@ -19,8 +24,11 @@ export default function PostForm(props) {
         }
 
         // Add it to local state (in App)
-        // TODO Add id and isChecked functionality HERE instead
-        props.addFunction(formData)
+        props.addFunction(postData)
+
+        // Empty out input field, reset formData for no double inputs
+        e.target[0].value = "" // Hm...
+        setFormData({content: e.target[0].value})
 
         const options = {
             method: "POST",
@@ -37,9 +45,13 @@ export default function PostForm(props) {
     }
 
     return (
-    <form className='post-form' onSubmit={submitPost}>
-        <input type="text" onChange={handleChange} placeholder="New task" />
-        <button>Create</button>
-    </form>
+        <div class="header">
+            <h2>To-Dos</h2>
+            <p>Enter a new task or click to edit an existing one!</p>
+            <form className='post-form' onSubmit={submitPost}>
+                <input name="user-input" type="text" onChange={handleChange} placeholder="New task" />
+                <button>Create</button>
+            </form>
+        </div>
     )
 }

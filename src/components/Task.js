@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 export default function Task(props) {
     const [isForm, setIsForm] = useState(false)
     // Usually can refactor something like this?
+    // Except in this case, we want to fill the form in with
+    // data from the database for later editing...
     const [formData, setFormData] = useState({ content: props.content, isChecked: props.isChecked })
 
     function swapDisplay() {
         setIsForm(prev => !prev)
+
     }
 
     function deleteTask() {
-        props.removeFunction(props.id)
+        // Remove item from parent state
+        props.removeFromList(props.id)
 
         const options = {
             method: "DELETE",
@@ -36,7 +42,8 @@ export default function Task(props) {
             isChecked: name === "complete" ? checked : props.isChecked
         }
 
-        props.updateFunction(newTask)
+        // Update parent state
+        props.updateList(newTask)
 
         const options = {
             method: "PUT",
@@ -60,6 +67,18 @@ export default function Task(props) {
         })
     }
 
+    // Unique because we want to reset the
+    // form data to reflect no committed change
+    function handleMouseOut(e) {
+        swapDisplay()
+        setFormData(prev => {
+            return {
+                ...prev,
+                content: props.content
+            }
+        })
+    }
+
     // Submitting this form is an UPDATE
     // However, can make the API call w/out
     // using an effect hook, since wrapped in
@@ -72,35 +91,40 @@ export default function Task(props) {
 
     return (
         <div className="task-main">
+            <form className="task-checkbox-form">
+                <input 
+                    className="task-checkbox"
+                    name="complete"
+                    type="checkbox" 
+                    checked={props.isChecked} 
+                    onChange={updateTask} 
+                />
+            </form>
+
             {!isForm && 
-                <>
-                    <p className="task-content" onClick={swapDisplay}>{props.content}</p>
-                    <form>
-                        <input 
-                            name="complete"
-                            type="checkbox" 
-                            checked={props.isChecked} 
-                            onChange={updateTask} 
-                        />
-                    </form>
-                </>
+                <p    
+                    className="task-content" 
+                    onClick={swapDisplay}
+                >
+                    {props.content}
+                </p>
             }
-            {isForm &&
-                <form onSubmit={handleSubmit}>
+
+            {isForm && 
+                <form className="task-form" onSubmit={handleSubmit}>
                     <input 
                         name="content"
                         type="text" 
                         value={formData.content}
-                        onChange={handleChange} />
-                    <input 
-                        name="complete"
-                        type="checkbox" 
-                        checked={props.isChecked} 
-                        onChange={updateTask} 
+                        onChange={handleChange} 
+                        onMouseOut={handleMouseOut}
                     />
                 </form>
             }
-            <button onClick={deleteTask}>Delete</button>
+            
+            <button onClick={deleteTask}>
+                <FontAwesomeIcon icon={faTrashCan} style={{color: "#fff",}} />
+            </button>
         </div>
     )
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Task from './components/Task'
 import PostForm from './components/PostForm'
 
+
 export default function App() {
   const [list, setList] = useState([{id: -1, content: 'Loading', isChecked: false}])
 
@@ -31,20 +32,25 @@ export default function App() {
   console.log(list)
 
   return (
-    <div className="App">
+    <div className="app">
 
       <PostForm addFunction={addToList} />
 
-      {list.map((task) => (
-        <Task 
-          key={task.id}
-          id={task.id} 
-          content={task.content} 
-          isChecked={task.isChecked}
-          removeFunction={removeFromList}
-          updateFunction={updateList}
-        />
-        ))}
+      {list.length !== 0 && 
+        <ul className='task-list'>
+          {list.map((task) => (
+            <li key={task.id}>
+              <Task 
+                id={task.id} 
+                content={task.content} 
+                isChecked={task.isChecked}
+                removeFromList={removeFromList}
+                updateList={updateList}
+              />
+            </li>
+            ))}
+        </ul>
+    }
     </div>
   );
 }
