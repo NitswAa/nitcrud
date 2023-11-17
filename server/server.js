@@ -70,10 +70,11 @@ app.post('/api', (req, res) => {
 app.put('/api', (req, res) => {
     console.log("PUT request received");
 
-    // Shouldn't have to error check here since id should be
-    // managed internally now, not by user
-    const index = tasks.map( e => e.id ).indexOf(req.body.id);
-
+    // Realistically should always error-check 
+    // Consider it from the perspective of API being public
+    // const index = tasks.map( e => e.id ).indexOf(req.body.id);
+    const index = tasks.findIndex( task => task.id === req.body.id)
+    
     tasks[index] = req.body
 
     fs.writeFileSync(database, JSON.stringify(tasks));

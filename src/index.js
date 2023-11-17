@@ -9,3 +9,9 @@ root.render(
     <App />
   </React.StrictMode>
 );
+
+
+const new_var = "yikes";
+
+console.log(new_var);
+new_var++;
