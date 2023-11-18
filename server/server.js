@@ -23,6 +23,10 @@ let nextID = Math.max(...tasks.map( e => e.id )) + 1;
 app.get('/api', (req, res) => {
     console.log("GET request received");
 
+    /* GET SQL?
+        SELECT * FROM tasks;
+    */
+
     res.json(tasks);
 })
 
@@ -39,19 +43,15 @@ app.get('/api', (req, res) => {
 app.post('/api', (req, res) => {
     console.log("POST request received");
 
-    /*
-    const task = {
-        id: req.body.id,
-        content: req.body.content,
-        isChecked: req.body.isChecked
-    }
+    /* POST SQL?
+        INSERT INTO tasks
+            (task_id, content, complete)
+        VALUES
+            (req.body.id, req.body.content, req.body.isChecked);
     */
 
-    // tasks.push(task);
     tasks.push(req.body)
 
-    // I believe this could/should be done async esp. because
-    // We're dealing with a callback function and promises?
     fs.writeFileSync(database, JSON.stringify(tasks));
 
     // No error checking heeheehaha. Async write has callback
@@ -70,6 +70,13 @@ app.post('/api', (req, res) => {
 app.put('/api', (req, res) => {
     console.log("PUT request received");
 
+    /* PUT SQL?
+        UPDATE tasks
+        SET content = req.body.content,
+            complete = req.body.complete
+        WHERE task_id = req.body.id;
+    */
+
     // Realistically should always error-check 
     // Consider it from the perspective of API being public
     // const index = tasks.map( e => e.id ).indexOf(req.body.id);
@@ -86,6 +93,10 @@ app.put('/api', (req, res) => {
 
 app.delete('/api', (req, res) => {
     console.log("DELETE request received");
+
+    /* DELETE SQL?
+        DELETE FROM tasks WHERE task_id = req.body.id;
+    */
 
     const index = tasks.map( e => e.id ).indexOf(req.body.id);
 
