@@ -7,7 +7,7 @@ export default function Task(props) {
     // Usually can refactor something like this?
     // Except in this case, we want to fill the form in with
     // data from the database for later editing...
-    const [formData, setFormData] = useState({ content: props.content, isChecked: props.isChecked })
+    const [formData, setFormData] = useState({ content: props.content, complete: props.complete })
 
     function swapDisplay() {
         setIsForm(prev => !prev)
@@ -16,14 +16,14 @@ export default function Task(props) {
 
     function deleteTask() {
         // Remove item from parent state
-        props.removeFromList(props.id)
+        props.removeFromList(props.task_id)
 
         const options = {
             method: "DELETE",
             headers: {
                 "Content-type": "application/json"
             },
-            body: JSON.stringify({ id: props.id })
+            body: JSON.stringify({ task_id: props.task_id })
         }
 
         fetch('http://localhost:3001/api', options)
@@ -37,9 +37,9 @@ export default function Task(props) {
         console.log(name)
 
         const newTask = {
-            id: props.id,
+            task_id: props.task_id,
             content: formData.content,
-            isChecked: name === "complete" ? checked : props.isChecked
+            complete: name === "complete" ? checked : props.complete
         }
 
         // Update parent state
@@ -96,7 +96,7 @@ export default function Task(props) {
                     className="task-checkbox"
                     name="complete"
                     type="checkbox" 
-                    checked={props.isChecked} 
+                    checked={props.complete} 
                     onChange={updateTask} 
                 />
             </form>

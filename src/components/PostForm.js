@@ -18,9 +18,9 @@ export default function PostForm(props) {
         }
 
         const postData = {
-            id: uuidv4(),
+            task_id: uuidv4(),
             content: formData.content,
-            isChecked: false
+            complete: false
         }
 
         // Add it to local state (in App)

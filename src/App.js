@@ -4,19 +4,19 @@ import PostForm from './components/PostForm'
 
 
 export default function App() {
-  const [list, setList] = useState([{id: -1, content: 'Loading', isChecked: false}])
+  const [list, setList] = useState([{task_id: -1, content: 'Loading', complete: false}])
 
   function addToList(newTask) {
     setList(prev => [...prev, newTask])
   }
 
   function removeFromList(oldTaskID) {
-    setList(prev => prev.filter( task => ( task.id !== oldTaskID )) )
+    setList(prev => prev.filter( task => ( task.task_id !== oldTaskID )) )
   }
 
   function updateList(curTask) {
     // Find index of element to update
-    const index = list.map( task => task.id ).indexOf(curTask.id)
+    const index = list.map( task => task.task_id ).indexOf(curTask.task_id)
     setList(prev => [...prev.slice(0, index), curTask, ...prev.slice(index + 1)])
   }
 
@@ -39,11 +39,11 @@ export default function App() {
       {list.length !== 0 && 
         <ul className='task-list'>
           {list.map((task) => (
-            <li key={task.id}>
+            <li key={task.task_id}>
               <Task 
-                id={task.id} 
+                task_id={task.task_id} 
                 content={task.content} 
-                isChecked={task.isChecked}
+                complete={task.complete}
                 removeFromList={removeFromList}
                 updateList={updateList}
               />

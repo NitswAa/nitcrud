@@ -1,0 +1,4 @@
+docker run -it -p 8001:5432 -e POSTGRES_PASSWORD="ireallydontcare" postgres sh
+Use this command to run a container and open up a shell command so you can navigate the internals.
+Note that if you exit the shell, the container will be left in a more or less
+frozen state.
