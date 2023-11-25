@@ -2,50 +2,48 @@ import React, { useEffect, useState } from "react";
 import Task from './components/Task'
 import PostForm from './components/PostForm'
 
+// const apiURL = 'http://localhost:3001/api';
+const apiURL = 'http://172.17.0.3:3001/api';
 
 export default function App() {
-  const [list, setList] = useState([{task_id: -1, content: 'Loading', complete: false}])
+  const [tasks, setTasks] = useState([{task_id: -1, content: 'Loading', complete: false}])
 
-  function addToList(newTask) {
-    setList(prev => [...prev, newTask])
+  function addTask(newTask) {
+    setTasks(prev => [...prev, newTask])
   }
 
-  function removeFromList(oldTaskID) {
-    setList(prev => prev.filter( task => ( task.task_id !== oldTaskID )) )
+  function removeTask(oldTaskID) {
+    setTasks(prev => prev.filter( task => ( task.task_id !== oldTaskID )) )
   }
 
-  function updateList(curTask) {
-    // Find index of element to update
-    const index = list.map( task => task.task_id ).indexOf(curTask.task_id)
-    setList(prev => [...prev.slice(0, index), curTask, ...prev.slice(index + 1)])
+  function updateTask(curTask) {
+    const index = tasks.map( task => task.task_id ).indexOf(curTask.task_id)
+    setTasks(prev => [...prev.slice(0, index), curTask, ...prev.slice(index + 1)])
   }
 
-  // GET data from API server
-  // Why does this run like 4 times lol
-  // The dependencies array is clearly set to empty...
   useEffect(() => {
-    fetch('http://localhost:3001/api')
+    fetch(apiURL)
       .then(res => res.json()
-      .then(data => {setList(data)}))
+      .then(db_tasks => {setTasks(db_tasks)}))
   }, [])
 
-  console.log(list)
+  console.log(tasks)
 
   return (
     <div className="app">
 
-      <PostForm addFunction={addToList} />
+      <PostForm addTask={addTask} />
 
-      {list.length !== 0 && 
+      {tasks.length !== 0 && 
         <ul className='task-list'>
-          {list.map((task) => (
+          {tasks.map((task) => (
             <li key={task.task_id}>
               <Task 
                 task_id={task.task_id} 
                 content={task.content} 
                 complete={task.complete}
-                removeFromList={removeFromList}
-                updateList={updateList}
+                removeTask={removeTask}
+                updateTask={updateTask}
               />
             </li>
             ))}

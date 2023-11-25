@@ -2,21 +2,19 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
+// const apiURL = 'http://localhost:3001/api';
+const apiURL = 'http://172.17.0.3:3001/api';
+
 export default function Task(props) {
     const [isForm, setIsForm] = useState(false)
-    // Usually can refactor something like this?
-    // Except in this case, we want to fill the form in with
-    // data from the database for later editing...
     const [formData, setFormData] = useState({ content: props.content, complete: props.complete })
 
     function swapDisplay() {
         setIsForm(prev => !prev)
-
     }
 
     function deleteTask() {
-        // Remove item from parent state
-        props.removeFromList(props.task_id)
+        props.removeTask(props.task_id)
 
         const options = {
             method: "DELETE",
@@ -26,7 +24,7 @@ export default function Task(props) {
             body: JSON.stringify({ task_id: props.task_id })
         }
 
-        fetch('http://localhost:3001/api', options)
+        fetch(apiURL, options)
             .then(res => res.json()
             .then(status => console.log(status)))
     }
@@ -36,24 +34,23 @@ export default function Task(props) {
 
         console.log(name)
 
-        const newTask = {
+        const updatedTask = {
             task_id: props.task_id,
             content: formData.content,
             complete: name === "complete" ? checked : props.complete
         }
 
-        // Update parent state
-        props.updateList(newTask)
+        props.updateTask(updatedTask)
 
         const options = {
             method: "PUT",
             headers: {
                 "Content-type": "application/json"
             },
-            body: JSON.stringify(newTask)
+            body: JSON.stringify(updatedTask)
         }
 
-        fetch('http://localhost:3001/api', options)
+        fetch(apiURL, options)
             .then(res => res.json()
             .then(status => console.log(status)))
     }
@@ -79,10 +76,6 @@ export default function Task(props) {
         })
     }
 
-    // Submitting this form is an UPDATE
-    // However, can make the API call w/out
-    // using an effect hook, since wrapped in
-    // a function
     function handleSubmit(e) {
         e.preventDefault()
         swapDisplay()

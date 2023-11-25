@@ -17,17 +17,17 @@ export default function PostForm(props) {
             return
         }
 
-        const postData = {
+        const newTask = {
             task_id: uuidv4(),
             content: formData.content,
             complete: false
         }
 
         // Add it to local state (in App)
-        props.addFunction(postData)
+        props.addTask(newTask)
 
         // Empty out input field, reset formData for no double inputs
-        e.target[0].value = "" // Hm...
+        e.target[0].value = "" 
         setFormData({content: e.target[0].value})
 
         const options = {
@@ -35,10 +35,9 @@ export default function PostForm(props) {
             headers: {
                 "Content-type": "application/json"
             },
-            body: JSON.stringify(postData)
+            body: JSON.stringify(newTask)
         }
 
-        // Should be fine, since contained in a submit function
         fetch('http://localhost:3001/api', options)
             .then(res => res.json()
             .then(console.log(res)))
