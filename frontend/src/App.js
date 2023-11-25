@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import Task from './components/Task'
 import PostForm from './components/PostForm'
 
-// const apiURL = 'http://localhost:3001/api';
-const apiURL = 'http://172.17.0.3:3001/api';
+// For not running on container
+// const apiURL = 'http://localhost:3001/api'; 
+// For running on container?
+const apiURL = 'http://172.17.0.3:3001/api'; 
 
 export default function App() {
   const [tasks, setTasks] = useState([{task_id: -1, content: 'Loading', complete: false}])
