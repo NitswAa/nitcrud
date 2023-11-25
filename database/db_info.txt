@@ -1,0 +1,33 @@
+5281:443 tcp
+5280:80 tcp
+
+pgdb
+ip: 172.17.0.2
+port: 5432
+user: postgres
+pass: ireallydontcare
+
+
+pgadmin:
+spacecraftdd@gmail.com
+pw: justatest
+
+Table: tasks
+Columns: task_id, content, complete
+
+GET: SELECT * FROM tasks;
+
+POST: 
+INSERT INTO tasks
+	(task_id, content, complete)
+VALUES
+	(req.body.id, req.body.content, req.body.complete);
+
+PUT:
+UPDATE tasks
+SET content = req.body.newContent
+        complete = req.body.complete
+WHERE task_id = req.body.id;
+
+DELETE:
+DELETE FROM tasks WHERE task_id = req.id;

@@ -1,0 +1,20 @@
+{
+  "name": "nitcrud-api-server",
+  "version": "1.0.0",
+  "description": "API server application for nitcrud project. Receives REST requests and converts them into postgres database queries.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./server/server.js"
+  },
+  "keywords": [
+    "API"
+  ],
+  "author": "Austin Witte",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "pg": "^8.11.3"
+  }
+}
