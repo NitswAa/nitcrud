@@ -5,7 +5,9 @@ import PostForm from './components/PostForm'
 // For not running on container
 // const apiURL = 'http://localhost:3001/api'; 
 // For running on container?
-const apiURL = 'http://172.17.0.3:3001/api'; 
+// const apiURL = 'http://172.17.0.3:3001/api'; 
+// For running composed?
+const apiURL = 'http://api-server:3001/api';
 
 export default function App() {
   const [tasks, setTasks] = useState([{task_id: -1, content: 'Loading', complete: false}])

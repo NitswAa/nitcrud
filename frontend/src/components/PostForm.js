@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-// TODO Make this controlled, except that's useless?!
+// For not running on container
+// const apiURL = 'http://localhost:3001/api'; 
+// For running on container?
+// const apiURL = 'http://172.17.0.3:3001/api'; 
+// For running composed?
+const apiURL = 'http://api-server:3001/api';
+
 export default function PostForm(props) {
     const [formData, setFormData] = useState({ content: '' })
 
@@ -23,7 +29,6 @@ export default function PostForm(props) {
             complete: false
         }
 
-        // Add it to local state (in App)
         props.addTask(newTask)
 
         // Empty out input field, reset formData for no double inputs
@@ -38,7 +43,7 @@ export default function PostForm(props) {
             body: JSON.stringify(newTask)
         }
 
-        fetch('http://localhost:3001/api', options)
+        fetch(apiURL, options)
             .then(res => res.json()
             .then(console.log(res)))
     }
