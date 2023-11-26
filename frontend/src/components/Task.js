@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-// For not running on container
-// const apiURL = 'http://localhost:3001/api'; 
-// For running on container?
+// For running locally or composed
+const apiURL = 'http://localhost:3001/api'; 
+// For running on separate container
 // const apiURL = 'http://172.17.0.3:3001/api'; 
-// For running composed?
-const apiURL = 'http://api-server:3001/api';
 
 export default function Task(props) {
     const [isForm, setIsForm] = useState(false)
